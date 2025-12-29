@@ -78,7 +78,7 @@ const ServerSDK = () => {
       const result = await response.json();
 
       if (result.success) {
-        addLog(`Message sent! ID: ${result.messageId}`, "success");
+        addLog(`Message sent!`, "success");
         // addLog(`Raw Response: ${JSON.stringify(result, null, 2)}`, "response");
         toast.success("Message Sent", {
           description: "The notification was successfully dispatched.",

@@ -37,9 +37,6 @@ export async function POST(req: NextRequest) {
                     body: payload.notification?.body || "Default Body",
                     requireInteraction: true,
                 },
-                fcmOptions: {
-                    link: payload.data?.click_action || "/",
-                },
             },
         };
 
