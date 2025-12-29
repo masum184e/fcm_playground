@@ -15,15 +15,21 @@ const Logs = ({ title, logs, setLogs }: LogsProps) => {
   return (
     <Card className="border-primary/20 shadow-primary/5 flex flex-col h-full">
       <CardHeader className="flex-none flex flex-row items-center justify-between">
-        <CardTitle className={`text-lg flex items-center gap-2 ${title==="server"?"text-secondary":"text-primary"}`}>
+        <CardTitle
+          className={`text-lg flex items-center gap-2 ${
+            title === "server" ? "text-secondary" : "text-primary"
+          }`}
+        >
           <Terminal className={`size-4 `} />
-          {title==="server"?"Server Logs":"Client Logs"}
+          {title === "server" ? "Server Logs" : "Client Logs"}
         </CardTitle>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setLogs([])}
-          className="h-7 text-xs cursor-pointer"
+          className={`h-7 text-xs cursor-pointer ${
+            title === "server" ? "text-secondary" : "text-primary"
+          }`}
         >
           Clear
         </Button>

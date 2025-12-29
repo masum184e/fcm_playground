@@ -9,11 +9,14 @@ import { toast } from "sonner";
 import Configuration from "./Configuration";
 import DispatchMessage from "./DispatchMessage";
 
+export type Target = "token" | "topic" | "broadcast";
+
 const ServerSDK = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [serviceAccountRaw, setServiceAccountRaw] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
-  const [targetToken, setTargetToken] = useState("");
+  const [targetType, setTargetType] = useState<Target>("token");
+  const [targetValue, setTargetValue] = useState("");
   const [messageTitle, setMessageTitle] = useState("Hello from FCM!");
   const [messageBody, setMessageBody] = useState(
     "This is a test notification."
@@ -51,8 +54,13 @@ const ServerSDK = () => {
       addLog("Please initialize Admin SDK first", "error");
       return;
     }
-    if (!targetToken) {
-      addLog("Target token is required", "error");
+    if (targetType === "token" && !targetValue) {
+      addLog("Registration token is required", "error");
+      return;
+    }
+
+    if (targetType === "topic" && !targetValue) {
+      addLog("Topic name is required", "error");
       return;
     }
 
@@ -62,7 +70,12 @@ const ServerSDK = () => {
       data: { click_action: "FLUTTER_NOTIFICATION_CLICK" },
     };
 
-    addLog(`Sending message to: ${targetToken.substring(0, 10)}...`, "request");
+    addLog(
+      `Sending message to: ${
+        targetType === "broadcast" ? "all_users" : targetValue.substring(0, 10)
+      }...`,
+      "request"
+    );
 
     try {
       const response = await fetch("/api/fcm/send", {
@@ -70,7 +83,8 @@ const ServerSDK = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           serviceAccount: JSON.parse(serviceAccountRaw),
-          target: targetToken,
+          targetType,
+          target: targetType === "broadcast" ? "all_users" : targetValue,
           payload,
         }),
       });
@@ -108,7 +122,7 @@ const ServerSDK = () => {
     ]);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 max-w-screen-xl mx-auto">
       <div className="space-y-4">
         {/* <div className="flex items-center gap-3 text-secondary mb-4">
           <Server className="size-6" />
@@ -127,8 +141,10 @@ const ServerSDK = () => {
           handleInitialize={handleInitialize}
         />
         <DispatchMessage
-          targetToken={targetToken}
-          setTargetToken={setTargetToken}
+          targetType={targetType}
+          setTargetType={setTargetType}
+          targetValue={targetValue}
+          setTargetValue={setTargetValue}
           messageTitle={messageTitle}
           messageBody={messageBody}
           setMessageBody={setMessageBody}

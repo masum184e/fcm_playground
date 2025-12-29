@@ -36,7 +36,7 @@ const FCMToken = ({
           FCM Token
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2 -mt-6">
+      <CardContent className="space-y-2 -mt-8">
         <div className="space-y-2">
           <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             VAPID Key (Web Push)

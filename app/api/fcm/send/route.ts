@@ -4,9 +4,9 @@ import { FirebaseError } from "firebase/app";
 
 export async function POST(req: NextRequest) {
     try {
-        const { serviceAccount, payload, target } = await req.json();
+        const { serviceAccount, payload, target, targetType } = await req.json();
 
-        if (!serviceAccount || !target || !payload) {
+        if (!serviceAccount || !target || !payload || !targetType) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
@@ -23,9 +23,13 @@ export async function POST(req: NextRequest) {
         }
 
         const messaging = admin.messaging(app);
+        const targetConfig =
+            targetType === "token" ? { token: target } :
+                targetType === "topic" ? { topic: target } :
+                    { topic: "all-users" };
 
-        const message = {
-            token: target,
+        const message: admin.messaging.Message = {
+            ...targetConfig,
             notification: {
                 title: payload.notification?.title || "Default Title",
                 body: payload.notification?.body || "Default Body",
@@ -36,9 +40,22 @@ export async function POST(req: NextRequest) {
                     title: payload.notification?.title || "Default Title",
                     body: payload.notification?.body || "Default Body",
                     requireInteraction: true,
+                    click_action: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app",
+                    icon: "/icon.png"
+                },
+                fcmOptions: {
+                    link: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app"
                 },
             },
         };
+
+        //         const message: admin.messaging.Message = {
+        //   ...targetConfig,
+        //   data: {
+        //     title: payload.notification?.title ?? "Default Title",
+        //     body: payload.notification?.body ?? "Default Body",
+        //   },
+        // };
 
         const response = await messaging.send(message);
 
@@ -47,20 +64,17 @@ export async function POST(req: NextRequest) {
             messageId: response,
             timestamp: new Date().toISOString(),
         });
-
     } catch (error) {
         console.error("FCM Send Error:", error);
 
-        const isError = error instanceof Error;
-        const errorMessage = isError ? error.message : "Internal Server Error";
-        const isFirebaseError = error instanceof FirebaseError
-        const errorCode = isFirebaseError ? error.code : "unknown";
+        const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+        const errorCode = error instanceof FirebaseError ? error.code : "unknown";
 
         return NextResponse.json(
             {
                 success: false,
                 error: errorMessage,
-                code: errorCode
+                code: errorCode,
             },
             { status: 500 }
         );

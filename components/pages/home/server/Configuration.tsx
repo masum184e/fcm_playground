@@ -43,7 +43,7 @@ const Configuration = ({
             </Badge>
           )}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="-mt-2">
           Paste your Service Account JSON from Firebase Console
         </CardDescription>
       </CardHeader>
@@ -58,7 +58,7 @@ const Configuration = ({
           <textarea
             value={serviceAccountRaw}
             onChange={(e) => setServiceAccountRaw(e.target.value)}
-            className="min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 font-mono"
+            className="min-h-[70px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 font-mono"
             placeholder='{ "type": "service_account", "project_id": "..." }'
           />
         </div>
