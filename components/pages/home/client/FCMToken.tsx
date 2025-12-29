@@ -35,9 +35,8 @@ const FCMToken = ({
           <Key className="size-4 text-primary" />
           FCM Token
         </CardTitle>
-        <CardDescription>Manage your device registration token</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2 -mt-6">
         <div className="space-y-2">
           <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             VAPID Key (Web Push)
@@ -76,7 +75,7 @@ const FCMToken = ({
           </Button>
         </div>
         <Button
-          className="w-full bg-primary hover:bg-primary/90 cursor-pointer"
+          className="w-full bg-primary hover:bg-primary/90 cursor-pointer mt-2"
           onClick={handleGetToken}
           disabled={!isInitialized}
         >

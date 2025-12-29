@@ -43,7 +43,7 @@ const DispatchMessage = ({
           Send a test notification to a specific client
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2 -mt-4">
         <div className="space-y-2">
           <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Registration Token
@@ -80,7 +80,7 @@ const DispatchMessage = ({
         <Button
           onClick={handleSendMessage}
           disabled={!isInitialized || isSending}
-          className="w-full bg-secondary hover:bg-secondary/90 text-white flex items-center gap-2 cursor-pointer"
+          className="w-full bg-secondary hover:bg-secondary/90 text-white flex items-center gap-2 cursor-pointer mt-2"
         >
           {isSending ? (
             <span className="animate-pulse">Sending...</span>

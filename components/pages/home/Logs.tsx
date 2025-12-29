@@ -13,10 +13,10 @@ interface LogsProps {
 
 const Logs = ({ title, logs, setLogs }: LogsProps) => {
   return (
-    <Card className="border-primary/20 shadow-primary/5 flex flex-col h-[350px]">
-      <CardHeader className="flex-none flex flex-row items-center justify-between py-4">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Terminal className={`size-4 ${title==="server"?"text-secondary":"text-primary"}`} />
+    <Card className="border-primary/20 shadow-primary/5 flex flex-col h-full">
+      <CardHeader className="flex-none flex flex-row items-center justify-between">
+        <CardTitle className={`text-lg flex items-center gap-2 ${title==="server"?"text-secondary":"text-primary"}`}>
+          <Terminal className={`size-4 `} />
           {title==="server"?"Server Logs":"Client Logs"}
         </CardTitle>
         <Button

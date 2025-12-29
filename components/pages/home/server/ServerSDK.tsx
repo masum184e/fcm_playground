@@ -108,31 +108,36 @@ const ServerSDK = () => {
     ]);
   };
   return (
-    <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8">
-      <div className="flex items-center gap-3 text-secondary mb-4">
-        <Server className="size-6" />
-        <h2 className="text-2xl font-bold">Admin SDK</h2>
-        <Badge variant="outline" className="border-secondary/30 text-secondary">
-          Server-side
-        </Badge>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+      <div className="space-y-4">
+        {/* <div className="flex items-center gap-3 text-secondary mb-4">
+          <Server className="size-6" />
+          <h2 className="text-2xl font-bold">Admin SDK</h2>
+          <Badge
+            variant="outline"
+            className="border-secondary/30 text-secondary"
+          >
+            Server-side
+          </Badge>
+        </div> */}
+        <Configuration
+          isInitialized={isInitialized}
+          serviceAccountRaw={serviceAccountRaw}
+          setServiceAccountRaw={setServiceAccountRaw}
+          handleInitialize={handleInitialize}
+        />
+        <DispatchMessage
+          targetToken={targetToken}
+          setTargetToken={setTargetToken}
+          messageTitle={messageTitle}
+          messageBody={messageBody}
+          setMessageBody={setMessageBody}
+          setMessageTitle={setMessageTitle}
+          handleSendMessage={handleSendMessage}
+          isSending={isSending}
+          isInitialized={isInitialized}
+        />
       </div>
-      <Configuration
-        isInitialized={isInitialized}
-        serviceAccountRaw={serviceAccountRaw}
-        setServiceAccountRaw={setServiceAccountRaw}
-        handleInitialize={handleInitialize}
-      />
-      <DispatchMessage
-        targetToken={targetToken}
-        setTargetToken={setTargetToken}
-        messageTitle={messageTitle}
-        messageBody={messageBody}
-        setMessageBody={setMessageBody}
-        setMessageTitle={setMessageTitle}
-        handleSendMessage={handleSendMessage}
-        isSending={isSending}
-        isInitialized={isInitialized}
-      />
       <Logs title="server" logs={logs} setLogs={setLogs} />
     </div>
   );

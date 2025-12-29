@@ -185,30 +185,35 @@ const ClientSDK = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8">
-      <div className="flex items-center gap-3 text-primary mb-4">
-        <Bell className="size-6" />
-        <h2 className="text-2xl font-bold tracking-tight">Client SDK</h2>
-        <Badge variant="outline" className="border-primary/30 text-primary">
-          Frontend
-        </Badge>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+      {/* <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8"> */}
+      <div className="space-y-4">
+        {/* <div className="flex items-center gap-3 text-primary mb-4">
+          <Bell className="size-6" />
+          <h2 className="text-2xl font-bold tracking-tight">Client SDK</h2>
+          <Badge variant="outline" className="border-primary/30 text-primary">
+            Frontend
+          </Badge>
+        </div> */}
+        <Configuration
+          isInitialized={isInitialized}
+          config={config}
+          setConfig={setConfig}
+          handleInitialize={handleInitialize}
+        />
+        <FCMToken
+          vapidKey={vapidKey}
+          setVapidKey={setVapidKey}
+          fcmToken={fcmToken}
+          clearToken={clearToken}
+          copyToken={copyToken}
+          handleGetToken={handleGetToken}
+          isInitialized={isInitialized}
+        />
       </div>
-      <Configuration
-        isInitialized={isInitialized}
-        config={config}
-        setConfig={setConfig}
-        handleInitialize={handleInitialize}
-      />
-      <FCMToken
-        vapidKey={vapidKey}
-        setVapidKey={setVapidKey}
-        fcmToken={fcmToken}
-        clearToken={clearToken}
-        copyToken={copyToken}
-        handleGetToken={handleGetToken}
-        isInitialized={isInitialized}
-      />
-      <Logs title="client" logs={logs} setLogs={setLogs} />
+<div className="h-full">
+        <Logs title="client" logs={logs} setLogs={setLogs} />
+</div>
     </div>
   );
 };

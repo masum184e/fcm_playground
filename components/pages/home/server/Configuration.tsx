@@ -26,7 +26,7 @@ const Configuration = ({
     <Card className="border-secondary/20 shadow-secondary/5">
       <CardHeader>
         <CardTitle className="text-lg flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-secondary">
             <Settings className="size-4 text-secondary" />
             Admin Configuration
           </div>
@@ -47,7 +47,7 @@ const Configuration = ({
           Paste your Service Account JSON from Firebase Console
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 -mt-4">
         <div className="grid w-full items-center gap-1.5">
           <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center justify-between">
             Service Account JSON

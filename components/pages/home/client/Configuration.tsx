@@ -23,7 +23,7 @@ const Configuration = ({
     <Card className="border-primary/20 shadow-primary/5">
       <CardHeader>
         <CardTitle className="text-lg flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="size-4 text-primary" />
             Configuration
           </div>
@@ -45,8 +45,8 @@ const Configuration = ({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <CardContent className="space-y-2 -mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div className="space-y-2">
             <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               API Key
@@ -119,7 +119,7 @@ const Configuration = ({
         </div>
         <Button
           onClick={handleInitialize}
-          className="w-full bg-primary hover:bg-primary/90 cursor-pointer"
+          className="w-full bg-primary hover:bg-primary/90 cursor-pointer mt-2"
         >
           Initialize Client SDK
         </Button>
