@@ -48,6 +48,15 @@ const ClientSDK = () => {
           const registration = await navigator.serviceWorker.register(
             "/firebase-messaging-sw.js"
           );
+          await navigator.serviceWorker.ready;
+          if (registration.active) {
+            registration.active.postMessage({
+              type: "SET_FIREBASE_CONFIG",
+              config: config,
+            });
+            addLog("Config synced to Service Worker", "success");
+          }
+
           addLog(
             `Service Worker registered with scope: ${registration.scope}`,
             "success"
@@ -117,11 +126,13 @@ const ClientSDK = () => {
 
       if (permission === "granted") {
         addLog("Notification permission granted", "success");
+        const registration = await navigator.serviceWorker.getRegistration();
         const messaging = getMessaging(getApp("fcm-playground"));
 
         addLog("Fetching FCM token...", "info");
         const token = await getToken(messaging, {
           vapidKey: vapidKey || undefined,
+          serviceWorkerRegistration: registration,
         });
 
         if (token) {

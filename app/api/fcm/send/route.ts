@@ -31,8 +31,12 @@ export async function POST(req: NextRequest) {
                 body: payload.notification?.body || "Default Body",
             },
             data: payload.data || {},
-            // Optional: Add Webpush specific config
             webpush: {
+                notification: {
+                    title: payload.notification?.title || "Default Title",
+                    body: payload.notification?.body || "Default Body",
+                    requireInteraction: true,
+                },
                 fcmOptions: {
                     link: payload.data?.click_action || "/",
                 },
