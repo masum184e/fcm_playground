@@ -59,7 +59,7 @@ const FCMToken = ({
           <Button
             size="icon"
             variant="outline"
-            className="shrink-0 bg-transparent"
+            className="shrink-0 bg-transparent cursor-pointer"
             onClick={copyToken}
             disabled={!fcmToken}
           >
@@ -68,7 +68,7 @@ const FCMToken = ({
           <Button
             size="icon"
             variant="outline"
-            className="shrink-0 text-destructive bg-transparent"
+            className="shrink-0 text-destructive bg-transparent cursor-pointer hover:text-destructive"
             onClick={clearToken}
             disabled={!fcmToken}
           >

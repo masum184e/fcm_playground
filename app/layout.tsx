@@ -14,6 +14,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata: Metadata = {
+  title: "FCM Playground | Notification Tester",
+  description:
+    "A developer tool for testing Firebase Cloud Messaging (FCM) tokens and payloads.",
+  keywords: [
+    "Firebase",
+    "FCM",
+    "Push Notifications",
+    "Next.js",
+    "Developer Tools",
+  ],
+  authors: [
+    { name: "Md Masum Billah", url: "https://mdmasumbillah.vercel.app/" },
+  ],
+  icons: {
+    icon: "/icon.png",
+  },
+};
 export default function RootLayout({
   children,
 }: Readonly<{
