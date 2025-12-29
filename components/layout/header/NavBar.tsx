@@ -2,7 +2,7 @@ import React from "react";
 
 const NavBar = () => {
   return (
-    <nav className="border-b bg-background px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    <nav className="border-b bg-background py-4 flex items-center justify-between sticky top-0 z-50 max-w-[88rem] mx-auto">
       <div>
         <h1 className="text-xl font-bold tracking-tight">FCM Playground</h1>
         <p className="text-sm text-muted-foreground">
