@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Architectural Overview
 
-## Getting Started
+<img src="https://firebase.google.com/static/docs/cloud-messaging/images/diagram-FCM.png" />
 
-First, run the development server:
+1. The message is composed, either in the Notifications composer or a trusted environment, and a message request is sent to the FCM backend.
+1. The FCM backend receives the message request, generates a message ID and other metadata, and sends it to the platform specific transport layer.
+1. When the device is online, the message is sent via the platform-specific transport layer to the device.
+1. On the device, the client app receives the message or notification.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Installation
+### Firebase Client SDK
+Used in client components for auth, Firestore, etc.
+```sh
+npm install firebase
 ```
+This installs:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `firebase/app` – initialize Firebase
+- `firebase/auth` – client-side authentication
+- `firebase/firestore` – Firestore database
+- `firebase/storage` – Cloud Storage
+- `firebase/functions` – callable functions (optional)
+- `firebase/analytics` – analytics (optional)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Used in:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Client Components (`"use client"`)
+- Browser-only code
 
-## Learn More
+### Firebase Admin SDK
+Used in server actions, API routes, middleware, cron jobs
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+npm install firebase-admin
+```
+This provides:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `firebase-admin/app` – initialize Admin app
+- `firebase-admin/auth` – manage users, verify tokens
+- `firebase-admin/firestore` – full Firestore access
+- `firebase-admin/storage` – admin access to Storage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Used in:
 
-## Deploy on Vercel
+- Server Actions
+- API Routes (app/api/*)
+- Middleware
+- Cron jobs
+- Background tasks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Never import `firebase-admin` into client components.
