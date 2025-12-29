@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FCM Playground | Notification Tester",
+  title: "FCM Playground - Notification Tester",
   description:
     "A developer tool for testing Firebase Cloud Messaging (FCM) tokens and payloads.",
   keywords: [
@@ -43,7 +43,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <Toaster position="top-right" />
-        {/* <Header /> */}
+        <Header />
         <main>{children}</main>
       </body>
     </html>

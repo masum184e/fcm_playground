@@ -3,7 +3,7 @@ import NavBar from './NavBar'
 
 const Header = () => {
   return (
-    <header >
+    <header className='border-b bg-background py-4'>
         <NavBar />
     </header>
   )
