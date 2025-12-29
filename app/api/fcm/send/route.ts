@@ -35,18 +35,18 @@ export async function POST(req: NextRequest) {
                 body: payload.notification?.body || "Default Body",
             },
             data: payload.data || {},
-            webpush: {
-                notification: {
-                    title: payload.notification?.title || "Default Title",
-                    body: payload.notification?.body || "Default Body",
-                    requireInteraction: true,
-                    click_action: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app",
-                    icon: "/icon.png"
-                },
-                fcmOptions: {
-                    link: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app"
-                },
-            },
+            // webpush: {
+            //     notification: {
+            //         title: payload.notification?.title || "Default Title",
+            //         body: payload.notification?.body || "Default Body",
+            //         requireInteraction: true,
+            //         click_action: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app",
+            //         icon: "/icon.png"
+            //     },
+            //     fcmOptions: {
+            //         link: process.env.ENV ? "http://localhost:3000" : "https://fcm-playground.vercel.app"
+            //     },
+            // },
         };
 
         //         const message: admin.messaging.Message = {
