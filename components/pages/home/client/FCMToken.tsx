@@ -47,8 +47,8 @@ const FCMToken = ({
   return (
     <Card className="border-primary/20 shadow-primary/5">
       <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Key className="size-4 text-primary" />
+        <CardTitle className="text-lg flex items-center gap-2  text-primary">
+          <Key className="size-4" />
           FCM Token
         </CardTitle>
       </CardHeader>

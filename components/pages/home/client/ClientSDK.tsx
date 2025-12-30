@@ -292,17 +292,22 @@ const ClientSDK = () => {
   };
 
   return (
-    <div className="py-4 max-w-screen-xl mx-auto space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
-        {/* <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8"> */}
-        {/* <div className="space-y-4"> */}
-        {/* <div className="flex items-center gap-3 text-primary mb-4">
+    <div className="py-4 px-4 md:px-6 max-w-screen-xl mx-auto space-y-6">
+      {/* Header Section (Optional but helps mobile context) */}
+      {/* <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3 text-primary">
           <Bell className="size-6" />
-          <h2 className="text-2xl font-bold tracking-tight">Client SDK</h2>
+          <h2 className="text-xl md:text-2xl font-bold tracking-tight">
+            FCM Playground
+          </h2>
           <Badge variant="outline" className="border-primary/30 text-primary">
-            Frontend
+            Client SDK
           </Badge>
-        </div> */}
+        </div>
+      </div> */}
+
+      {/* Responsive Grid: 1 column on mobile, 2 on lg screens */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         <Configuration
           isInitialized={isInitialized}
           config={config}
@@ -311,6 +316,7 @@ const ClientSDK = () => {
           serviceAccountRaw={serviceAccountRaw}
           setServiceAccountRaw={setServiceAccountRaw}
         />
+
         <FCMToken
           vapidKey={vapidKey}
           setVapidKey={setVapidKey}
@@ -327,9 +333,10 @@ const ClientSDK = () => {
           serviceAccountRaw={serviceAccountRaw}
           handleUnsubscribeFromTopic={handleUnsubscribeFromTopic}
         />
-        {/* </div> */}
       </div>
-      <div>
+
+      {/* Full width logs */}
+      <div className="w-full">
         <Logs title="client" logs={logs} setLogs={setLogs} />
       </div>
     </div>

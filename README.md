@@ -1,3 +1,10 @@
+# FCM Playground
+It is a experimental sandbox for implementing Firebase Cloud Messaging (FCM) using both the Firebase Client SDK and the Firebase Admin SDK. It demonstrates how to register devices, handle foreground/background notifications, and send messages from a server environment.
+
+## Preview
+<img src="/public/overview.png" />
+
+[Live Preview](https://fcm-playground.vercel.app/)
 ## Architectural Overview
 
 <img src="https://firebase.google.com/static/docs/cloud-messaging/images/diagram-FCM.png" />
@@ -8,11 +15,15 @@
 1. On the device, the client app receives the message or notification.
 
 ## Installation
+
 ### Firebase Client SDK
+
 Used in client components for auth, Firestore, etc.
+
 ```sh
 npm install firebase
 ```
+
 This installs:
 
 - `firebase/app` – initialize Firebase
@@ -28,11 +39,13 @@ Used in:
 - Browser-only code
 
 ### Firebase Admin SDK
+
 Used in server actions, API routes, middleware, cron jobs
 
 ```sh
 npm install firebase-admin
 ```
+
 This provides:
 
 - `firebase-admin/app` – initialize Admin app
@@ -43,7 +56,7 @@ This provides:
 Used in:
 
 - Server Actions
-- API Routes (app/api/*)
+- API Routes (app/api/\*)
 - Middleware
 - Cron jobs
 - Background tasks

@@ -26,9 +26,9 @@ export async function POST(req: NextRequest) {
         const targetConfig =
             targetType === "token" ? { token: target } :
                 targetType === "topic" ? { topic: target } :
-                    { topic: "all-users" };
+                    { topic: "all_users" };
 
-        const message: admin.messaging.Message = {
+                    const message: admin.messaging.Message = {
             ...targetConfig,
             notification: {
                 title: payload.notification?.title || "Default Title",

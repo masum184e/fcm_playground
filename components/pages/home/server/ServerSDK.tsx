@@ -122,18 +122,18 @@ const ServerSDK = () => {
     ]);
   };
   return (
-    <div className="py-4 max-w-screen-xl mx-auto space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
-        {/* <div className="flex items-center gap-3 text-secondary mb-4">
+    <div className="py-4 px-4 md:px-6 max-w-screen-xl mx-auto space-y-6">
+      {/* <div className="flex items-center gap-3 text-secondary mb-4">
           <Server className="size-6" />
           <h2 className="text-2xl font-bold">Admin SDK</h2>
           <Badge
-            variant="outline"
-            className="border-secondary/30 text-secondary"
+          variant="outline"
+          className="border-secondary/30 text-secondary"
           >
-            Server-side
+          Server-side
           </Badge>
-        </div> */}
+          </div> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         <Configuration
           isInitialized={isInitialized}
           serviceAccountRaw={serviceAccountRaw}
@@ -154,7 +154,7 @@ const ServerSDK = () => {
           isInitialized={isInitialized}
         />
       </div>
-      <div>
+      <div className="w-full">
         <Logs title="server" logs={logs} setLogs={setLogs} />
       </div>
     </div>

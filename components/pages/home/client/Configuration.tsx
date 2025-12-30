@@ -27,27 +27,36 @@ const Configuration = ({
   return (
     <Card className="border-primary/20 shadow-primary/5">
       <CardHeader>
-        <CardTitle className="text-lg flex items-center justify-between">
+        <CardTitle className="text-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          {/* Left Side: Icon and Title */}
           <div className="flex items-center gap-2 text-primary">
-            <ShieldCheck className="size-4 text-primary" />
-            Configuration
+            <ShieldCheck className="size-4 shrink-0" />
+            <span className="truncate">Configuration</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Right Side: Badges and Modals */}
+          <div className="flex flex-wrap flex-col items-start md:items-center md:flex-row gap-2 w-full sm:w-auto">
             {isInitialized ? (
               <Badge
                 variant="secondary"
-                className="bg-emerald-500/10 text-emerald-600"
+                className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 whitespace-nowrap"
               >
                 <CheckCircle2 className="size-3 mr-1" /> Initialized
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-muted-foreground italic">
+              <Badge
+                variant="outline"
+                className="text-muted-foreground italic whitespace-nowrap"
+              >
                 Not Ready
               </Badge>
             )}
-            <QuickSetupModal onConfigParsed={setConfig} />
-            <ServiceAccountModal onConfigParsed={setServiceAccountRaw} />
+
+            {/* Buttons Container */}
+            <div className="flex flex-col items-start md:items-center md:flex-row gap-2 md:ml-auto sm:ml-0">
+              <QuickSetupModal onConfigParsed={setConfig} />
+              <ServiceAccountModal onConfigParsed={setServiceAccountRaw} />
+            </div>
           </div>
         </CardTitle>
       </CardHeader>

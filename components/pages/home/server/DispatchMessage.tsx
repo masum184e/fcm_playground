@@ -57,13 +57,13 @@ const DispatchMessage = ({
         >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="token" className="flex items-center gap-2 text-secondary/90 cursor-pointer">
-              <User className="size-3" /> Specific User
+              <User className="size-3" /> Specific
             </TabsTrigger>
             <TabsTrigger value="topic" className="flex items-center gap-2 text-secondary/90 cursor-pointer">
-              <Users className="size-3" /> Group (Topic)
+              <Users className="size-3" /> Group
             </TabsTrigger>
             <TabsTrigger value="broadcast" className="flex items-center gap-2 text-secondary/90 cursor-pointer">
-              <Radio className="size-3" /> All Users
+              <Radio className="size-3" /> All
             </TabsTrigger>
           </TabsList>
 

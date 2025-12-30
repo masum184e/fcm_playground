@@ -25,7 +25,7 @@ const Configuration = ({
   return (
     <Card className="border-secondary/20 shadow-secondary/5">
       <CardHeader>
-        <CardTitle className="text-lg flex items-center justify-between">
+        <CardTitle className="text-lg flex flex-col md:flex-row items-start md:items-center  justify-between">
           <div className="flex items-center gap-2 text-secondary">
             <Settings className="size-4 text-secondary" />
             Admin Configuration
