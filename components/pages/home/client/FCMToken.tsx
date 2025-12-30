@@ -24,6 +24,7 @@ interface FCMTokenProps {
   setNewTopic: (value: string) => void;
   isSubscribing: boolean;
   handleSubscribeToTopic: (value: string) => void;
+  serviceAccountRaw: string;
 }
 
 const FCMToken = ({
@@ -39,6 +40,7 @@ const FCMToken = ({
   setNewTopic,
   isSubscribing,
   handleSubscribeToTopic,
+  serviceAccountRaw,
 }: FCMTokenProps) => {
   return (
     <Card className="border-primary/20 shadow-primary/5">
@@ -121,15 +123,17 @@ const FCMToken = ({
             <Button
               size="sm"
               onClick={() => handleSubscribeToTopic(newTopic)}
-              disabled={!fcmToken || !newTopic || isSubscribing}
+              disabled={
+                !fcmToken || !newTopic || isSubscribing || !serviceAccountRaw
+              }
               className="cursor-pointer"
             >
               {isSubscribing ? "Joining..." : "Join"}
             </Button>
           </div>
           <p className="text-[10px] text-muted-foreground italic">
-            * Users are automatically joined to the {"\"all_users\""} group on token
-            retrieval.
+            * Users are automatically joined to the {'"all_users"'} group on
+            token retrieval.
           </p>
         </div>
       </CardContent>

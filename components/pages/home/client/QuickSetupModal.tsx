@@ -47,12 +47,21 @@ export function QuickSetupModal({ onConfigParsed }: QuickSetupModalProps) {
         onConfigParsed(newConfig);
         setRawPaste("");
         setIsOpen(false);
-        toast.success("Configuration parsed successfully!");
+        toast.success("Configuration parsed successfully!", {
+          description: `Found credentials for project: ${newConfig.projectId}`,
+        });
       } else {
-        toast.error("Could not find valid credentials. Check your input.");
+        toast.error("Invalid Configuration", {
+          description:
+            "Required fields (apiKey, projectId, appId) are missing in the pasted text.",
+        });
       }
     } catch (err) {
-      toast.error("An error occurred while parsing the text.");
+      console.error(err)
+      toast.error("Parsing Error", {
+        description:
+          "The text format wasn't recognized. Please copy the entire firebaseConfig object.",
+      });
     }
   };
 

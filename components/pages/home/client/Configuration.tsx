@@ -5,12 +5,15 @@ import { Input } from "@/components/ui/input";
 import { FirebaseConfig } from "@/types/firebase";
 import { ShieldCheck, CheckCircle2 } from "lucide-react";
 import { QuickSetupModal } from "./QuickSetupModal";
+import { ServiceAccountModal } from "./ServiceAccountModal";
 
 interface ConfigurationProps {
   isInitialized: boolean;
   config: FirebaseConfig;
   setConfig: React.Dispatch<React.SetStateAction<FirebaseConfig>>;
   handleInitialize: () => void;
+  serviceAccountRaw: string;
+  setServiceAccountRaw: (value: string) => void;
 }
 
 const Configuration = ({
@@ -18,6 +21,8 @@ const Configuration = ({
   config,
   setConfig,
   handleInitialize,
+  serviceAccountRaw,
+  setServiceAccountRaw,
 }: ConfigurationProps) => {
   return (
     <Card className="border-primary/20 shadow-primary/5">
@@ -42,6 +47,7 @@ const Configuration = ({
               </Badge>
             )}
             <QuickSetupModal onConfigParsed={setConfig} />
+            <ServiceAccountModal onConfigParsed={setServiceAccountRaw} />
           </div>
         </CardTitle>
       </CardHeader>

@@ -24,6 +24,8 @@ const ClientSDK = () => {
     messagingSenderId: "",
     appId: "",
   });
+  const [serviceAccountRaw, setServiceAccountRaw] = useState("");
+
   const [vapidKey, setVapidKey] = useState("");
   const [fcmToken, setFcmToken] = useState("");
   const [topics, setTopics] = useState<TopicSubscription[]>([
@@ -86,8 +88,9 @@ const ClientSDK = () => {
         `Firebase Client SDK initialized for project: ${config.projectId}`,
         "success"
       );
-      toast.success("SDK Initialized successfully");
-
+      toast.success("SDK Initialized successfully", {
+        description: `Connected to project: ${config.projectId}`,
+      });
       // Setup Foreground Message Handler
       const messaging = getMessaging(app);
       onMessage(messaging, (payload) => {
@@ -143,7 +146,17 @@ const ClientSDK = () => {
 
         if (token) {
           setFcmToken(token);
-          addLog("FCM Token retrieved successfully", "success");
+
+          if (serviceAccountRaw) {
+            addLog("Auto-subscribing to 'all_users'...", "info");
+            handleSubscribeToTopic("all_users", token);
+          } else {
+            addLog(
+              "Token retrieved, but no Service Account found for auto-subscription.",
+              "error"
+            );
+          }
+
           // Copy to clipboard automatically for convenience
           navigator.clipboard.writeText(token);
           toast.success("Token Generated", {
@@ -202,12 +215,22 @@ const ClientSDK = () => {
 
     setIsSubscribing(true);
     addLog(`Subscribing to topic: ${topicName}...`, "info");
+    const serviceAccountObj =
+      typeof serviceAccountRaw === "string"
+        ? JSON.parse(serviceAccountRaw)
+        : serviceAccountRaw;
+
+    const payload = JSON.stringify({
+      serviceAccount: serviceAccountObj,
+      token: activeToken,
+      topic: topicName,
+    });
 
     try {
       const response = await fetch("/api/fcm/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: activeToken, topic: topicName }),
+        body: payload,
       });
 
       const data = await response.json();
@@ -235,42 +258,45 @@ const ClientSDK = () => {
 
   return (
     <div className="py-4 max-w-screen-xl mx-auto space-y-4">
-    <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
-      {/* <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8"> */}
-      {/* <div className="space-y-4"> */}
-      {/* <div className="flex items-center gap-3 text-primary mb-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
+        {/* <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8"> */}
+        {/* <div className="space-y-4"> */}
+        {/* <div className="flex items-center gap-3 text-primary mb-4">
           <Bell className="size-6" />
           <h2 className="text-2xl font-bold tracking-tight">Client SDK</h2>
           <Badge variant="outline" className="border-primary/30 text-primary">
             Frontend
           </Badge>
         </div> */}
-      <Configuration
-        isInitialized={isInitialized}
-        config={config}
-        setConfig={setConfig}
-        handleInitialize={handleInitialize}
-      />
-      <FCMToken
-        vapidKey={vapidKey}
-        setVapidKey={setVapidKey}
-        fcmToken={fcmToken}
-        clearToken={clearToken}
-        copyToken={copyToken}
-        handleGetToken={handleGetToken}
-        isInitialized={isInitialized}
-        topics={topics}
-        newTopic={newTopic}
-        setNewTopic={setNewTopic}
-        isSubscribing={isSubscribing}
-        handleSubscribeToTopic={handleSubscribeToTopic}
-      />
-      {/* </div> */}
-    </div>
+        <Configuration
+          isInitialized={isInitialized}
+          config={config}
+          setConfig={setConfig}
+          handleInitialize={handleInitialize}
+          serviceAccountRaw={serviceAccountRaw}
+          setServiceAccountRaw={setServiceAccountRaw}
+        />
+        <FCMToken
+          vapidKey={vapidKey}
+          setVapidKey={setVapidKey}
+          fcmToken={fcmToken}
+          clearToken={clearToken}
+          copyToken={copyToken}
+          handleGetToken={handleGetToken}
+          isInitialized={isInitialized}
+          topics={topics}
+          newTopic={newTopic}
+          setNewTopic={setNewTopic}
+          isSubscribing={isSubscribing}
+          handleSubscribeToTopic={handleSubscribeToTopic}
+          serviceAccountRaw={serviceAccountRaw}
+        />
+        {/* </div> */}
+      </div>
       <div>
         <Logs title="client" logs={logs} setLogs={setLogs} />
       </div>
-      </div>
+    </div>
   );
 };
 

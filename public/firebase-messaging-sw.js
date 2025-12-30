@@ -11,7 +11,7 @@ self.addEventListener('message', (event) => {
       const messaging = firebase.messaging();
 
       messaging.onBackgroundMessage((payload) => {
-        console.log('[sw.js] Background message received', payload);
+        console.info('[sw.js] Background message received', payload);
         const notificationTitle = payload.notification?.title || "New Message";
         const notificationOptions = {
           body: payload.notification?.body,
