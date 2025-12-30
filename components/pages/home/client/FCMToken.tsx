@@ -8,6 +8,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Key, Copy, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { TopicSubscription } from "@/types/topic";
 
 interface FCMTokenProps {
   vapidKey: string;
@@ -17,6 +19,11 @@ interface FCMTokenProps {
   copyToken: () => void;
   handleGetToken: () => void;
   isInitialized: boolean;
+  topics: TopicSubscription[];
+  newTopic: string;
+  setNewTopic: (value: string) => void;
+  isSubscribing: boolean;
+  handleSubscribeToTopic: (value: string) => void;
 }
 
 const FCMToken = ({
@@ -27,6 +34,11 @@ const FCMToken = ({
   copyToken,
   handleGetToken,
   isInitialized,
+  topics,
+  newTopic,
+  setNewTopic,
+  isSubscribing,
+  handleSubscribeToTopic,
 }: FCMTokenProps) => {
   return (
     <Card className="border-primary/20 shadow-primary/5">
@@ -81,6 +93,45 @@ const FCMToken = ({
         >
           Request Permission & Get Token
         </Button>
+
+        <div className="space-y-3">
+          <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Group Subscriptions (Topics)
+          </label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {topics.map((topic) => (
+              <Badge
+                key={topic.name}
+                variant="secondary"
+                className="bg-primary/10 text-primary border-primary/20 cursor-pointer"
+                onClick={() => setNewTopic(topic.name)}
+              >
+                {topic.name}
+              </Badge>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Join a new group (e.g. 'dev-team')"
+              value={newTopic}
+              onChange={(e) => setNewTopic(e.target.value)}
+              className="text-xs"
+              disabled={!fcmToken}
+            />
+            <Button
+              size="sm"
+              onClick={() => handleSubscribeToTopic(newTopic)}
+              disabled={!fcmToken || !newTopic || isSubscribing}
+              className="cursor-pointer"
+            >
+              {isSubscribing ? "Joining..." : "Join"}
+            </Button>
+          </div>
+          <p className="text-[10px] text-muted-foreground italic">
+            * Users are automatically joined to the {"\"all_users\""} group on token
+            retrieval.
+          </p>
+        </div>
       </CardContent>
     </Card>
   );

@@ -11,6 +11,7 @@ import { initializeApp, getApps, getApp, FirebaseError } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { toast } from "sonner";
 import FCMToken from "./FCMToken";
+import { TopicSubscription } from "@/types/topic";
 
 const ClientSDK = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -25,6 +26,11 @@ const ClientSDK = () => {
   });
   const [vapidKey, setVapidKey] = useState("");
   const [fcmToken, setFcmToken] = useState("");
+  const [topics, setTopics] = useState<TopicSubscription[]>([
+    { name: "all_users", status: "active" },
+  ]);
+  const [newTopic, setNewTopic] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
   const handleInitialize = async () => {
     try {
@@ -184,37 +190,87 @@ const ClientSDK = () => {
     addLog("FCM Token cleared locally", "info");
   };
 
+  const handleSubscribeToTopic = async (
+    topicName: string,
+    tokenToUse?: string
+  ) => {
+    const activeToken = tokenToUse || fcmToken;
+    if (!activeToken) {
+      addLog("Cannot subscribe without a valid FCM token", "error");
+      return;
+    }
+
+    setIsSubscribing(true);
+    addLog(`Subscribing to topic: ${topicName}...`, "info");
+
+    try {
+      const response = await fetch("/api/fcm/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: activeToken, topic: topicName }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        if (!topics.find((t) => t.name === topicName)) {
+          setTopics((prev) => [...prev, { name: topicName, status: "active" }]);
+        }
+        addLog(`Successfully subscribed to ${topicName}`, "success");
+        toast.success("Topic Subscribed", {
+          description: `You are now in the ${topicName} group.`,
+        });
+      } else {
+        throw new Error(data.error || "Subscription failed");
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      addLog(`Subscription error: ${errorMessage}`, "error");
+    } finally {
+      setIsSubscribing(false);
+      setNewTopic("");
+    }
+  };
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 max-w-screen-xl mx-auto">
+    <div className="py-4 max-w-screen-xl mx-auto space-y-4">
+    <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
       {/* <div className="space-y-6 max-w-3xl mx-auto p-4 md:p-8"> */}
-      <div className="space-y-4">
-        {/* <div className="flex items-center gap-3 text-primary mb-4">
+      {/* <div className="space-y-4"> */}
+      {/* <div className="flex items-center gap-3 text-primary mb-4">
           <Bell className="size-6" />
           <h2 className="text-2xl font-bold tracking-tight">Client SDK</h2>
           <Badge variant="outline" className="border-primary/30 text-primary">
             Frontend
           </Badge>
         </div> */}
-        <Configuration
-          isInitialized={isInitialized}
-          config={config}
-          setConfig={setConfig}
-          handleInitialize={handleInitialize}
-        />
-        <FCMToken
-          vapidKey={vapidKey}
-          setVapidKey={setVapidKey}
-          fcmToken={fcmToken}
-          clearToken={clearToken}
-          copyToken={copyToken}
-          handleGetToken={handleGetToken}
-          isInitialized={isInitialized}
-        />
-      </div>
-<div className="h-full">
-        <Logs title="client" logs={logs} setLogs={setLogs} />
-</div>
+      <Configuration
+        isInitialized={isInitialized}
+        config={config}
+        setConfig={setConfig}
+        handleInitialize={handleInitialize}
+      />
+      <FCMToken
+        vapidKey={vapidKey}
+        setVapidKey={setVapidKey}
+        fcmToken={fcmToken}
+        clearToken={clearToken}
+        copyToken={copyToken}
+        handleGetToken={handleGetToken}
+        isInitialized={isInitialized}
+        topics={topics}
+        newTopic={newTopic}
+        setNewTopic={setNewTopic}
+        isSubscribing={isSubscribing}
+        handleSubscribeToTopic={handleSubscribeToTopic}
+      />
+      {/* </div> */}
     </div>
+      <div>
+        <Logs title="client" logs={logs} setLogs={setLogs} />
+      </div>
+      </div>
   );
 };
 

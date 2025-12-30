@@ -122,8 +122,8 @@ const ServerSDK = () => {
     ]);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-4 max-w-screen-xl mx-auto">
-      <div className="space-y-4">
+    <div className="py-4 max-w-screen-xl mx-auto space-y-4">
+      <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
         {/* <div className="flex items-center gap-3 text-secondary mb-4">
           <Server className="size-6" />
           <h2 className="text-2xl font-bold">Admin SDK</h2>
@@ -154,7 +154,9 @@ const ServerSDK = () => {
           isInitialized={isInitialized}
         />
       </div>
-      <Logs title="server" logs={logs} setLogs={setLogs} />
+      <div>
+        <Logs title="server" logs={logs} setLogs={setLogs} />
+      </div>
     </div>
   );
 };

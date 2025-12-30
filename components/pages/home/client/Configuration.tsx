@@ -45,7 +45,7 @@ const Configuration = ({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2 -mt-8">
+      <CardContent className="space-y-4 -mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div className="space-y-2">
             <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">

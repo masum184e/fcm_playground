@@ -31,6 +31,12 @@ const NavBar = () => {
           >
             Admin
           </Link>
+          <Link
+            href="https://console.firebase.google.com/"
+            className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-md transition-all duration-300 active:scale-95"
+          >
+            Console
+          </Link>
         </div>
 
         {/* Vertical Divider */}
