@@ -256,6 +256,41 @@ const ClientSDK = () => {
     }
   };
 
+  const handleUnsubscribeFromTopic = async (topicName: string) => {
+    if (!fcmToken || !serviceAccountRaw) return;
+
+    addLog(`Unsubscribing from ${topicName}...`, "info");
+
+    try {
+      const saObject =
+        typeof serviceAccountRaw === "string"
+          ? JSON.parse(serviceAccountRaw)
+          : serviceAccountRaw;
+
+      const response = await fetch("/api/fcm/unsubscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceAccount: saObject,
+          token: fcmToken,
+          topic: topicName,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setTopics((prev) => prev.filter((t) => t.name !== topicName));
+        addLog(`Left group: ${topicName}`, "success");
+        toast.success("Unsubscribed", { description: `You left ${topicName}` });
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      addLog(`Unsubscribe error: ${errorMessage}`, "error");
+    }
+  };
+
   return (
     <div className="py-4 max-w-screen-xl mx-auto space-y-4">
       <div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
@@ -290,6 +325,7 @@ const ClientSDK = () => {
           isSubscribing={isSubscribing}
           handleSubscribeToTopic={handleSubscribeToTopic}
           serviceAccountRaw={serviceAccountRaw}
+          handleUnsubscribeFromTopic={handleUnsubscribeFromTopic}
         />
         {/* </div> */}
       </div>

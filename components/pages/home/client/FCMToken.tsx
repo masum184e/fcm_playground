@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Key, Copy, Trash2 } from "lucide-react";
+import { Key, Copy, Trash2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TopicSubscription } from "@/types/topic";
 
@@ -25,6 +25,7 @@ interface FCMTokenProps {
   isSubscribing: boolean;
   handleSubscribeToTopic: (value: string) => void;
   serviceAccountRaw: string;
+  handleUnsubscribeFromTopic: (value: string) => void;
 }
 
 const FCMToken = ({
@@ -41,6 +42,7 @@ const FCMToken = ({
   isSubscribing,
   handleSubscribeToTopic,
   serviceAccountRaw,
+  handleUnsubscribeFromTopic,
 }: FCMTokenProps) => {
   return (
     <Card className="border-primary/20 shadow-primary/5">
@@ -108,7 +110,19 @@ const FCMToken = ({
                 className="bg-primary/10 text-primary border-primary/20 cursor-pointer"
                 onClick={() => setNewTopic(topic.name)}
               >
-                {topic.name}
+                {topic.name}{" "}
+                {topic.name !== "all_users" && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUnsubscribeFromTopic(topic.name);
+                    }}
+                    className="ml-1 hover:bg-primary/20 rounded-full p-0.5 transition-colors cursor-pointer"
+                    disabled={isSubscribing}
+                  >
+                    <X className="size-3" />
+                  </button>
+                )}
               </Badge>
             ))}
           </div>
