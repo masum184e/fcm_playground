@@ -10,16 +10,37 @@ self.addEventListener('message', (event) => {
       firebase.initializeApp(config);
       const messaging = firebase.messaging();
 
+    //   messaging.onBackgroundMessage((payload) => {
+    //     console.info('[sw.js] Background message received', payload);
+    //     const notificationTitle = payload.notification?.title || "New Message";
+    //     const notificationOptions = {
+    //       body: payload.notification?.body,
+    //       icon: '/icon.png',
+    //       data: payload.data
+    //     };
+    //     self.registration.showNotification(notificationTitle, notificationOptions);
+    //   });
+    // }
       messaging.onBackgroundMessage((payload) => {
-        console.info('[sw.js] Background message received', payload);
-        const notificationTitle = payload.notification?.title || "New Message";
-        const notificationOptions = {
-          body: payload.notification?.body,
-          icon: '/icon.png',
-          data: payload.data
-        };
-        self.registration.showNotification(notificationTitle, notificationOptions);
+  self.clients.matchAll({ includeUncontrolled: true }).then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({
+        type: "FCM_BACKGROUND_MESSAGE",
+        payload,
       });
+    });
+  });
+
+  self.registration.showNotification(
+    payload.notification?.title || "New Message",
+    {
+      body: payload.notification?.body,
+      icon: "/icon.png",
+      data: payload.data,
     }
+  );
+});
+
+      
   }
 });
