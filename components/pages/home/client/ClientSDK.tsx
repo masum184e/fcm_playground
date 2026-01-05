@@ -2,7 +2,7 @@
 
 import { Bell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Configuration from "./Configuration";
 import { FirebaseConfig } from "@/types/firebase";
 import Logs from "../Logs";
@@ -290,6 +290,21 @@ const ClientSDK = () => {
       addLog(`Unsubscribe error: ${errorMessage}`, "error");
     }
   };
+
+  useEffect(() => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("message", (event) => {
+      if (event.data?.type === "FCM_BACKGROUND_MESSAGE") {
+        addLog(
+          `Background message received: ${JSON.stringify(
+            event.data.payload.notification
+          )}`,
+          "message"
+        );
+      }
+    });
+  }
+}, []);
 
   return (
     <div className="py-4 px-4 md:px-6 max-w-screen-xl mx-auto space-y-6">
